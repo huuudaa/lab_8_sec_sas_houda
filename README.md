@@ -55,17 +55,6 @@ mkdir 00-scope
 ...
 "@ | Out-File -FilePath "00-scope\scope.md" -Encoding utf8
 ```
-
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Fichier `00-scope/scope.md` créé | ✅ |
-| Cible autorisée clairement identifiée | ✅ |
-| Limites explicites documentées | ✅ |
-| Source d'autorisation référencée | ✅ |
-| Date et durée renseignées | ✅ |
-
 ---
 
 ## Task 1 — Préparation du workspace et traçabilité
@@ -131,15 +120,6 @@ Environnement: Windows Microsoft Windows 11 Pro
 - Le fichier `analyse_info.txt` centralise les métadonnées de l'analyse pour référence rapide.
 - La traçabilité est un critère d'évaluation dans tout audit professionnel — un audit non reproductible n'a pas de valeur.
 
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Arborescence conforme au plan | ✅ |
-| Fichier `analyse_info.txt` créé avec tous les champs | ✅ |
-| Fichier `commands.log` initialisé | ✅ |
-| Versions des outils documentées | ✅ |
-
 ---
 
 ## Task 2 — Préparer l'artefact autorisé
@@ -187,15 +167,6 @@ Hash: 7B2C4F9E1A3D5B8C0E2F4A6D8B0C2E4F6A8D0B2C4E6F8A0D2B4C6E8F0A2D4B6
 - Le hash SHA-256 garantit l'intégrité de l'artefact : si une analyse ultérieure est réalisée sur le même fichier, le hash doit être identique pour confirmer que le fichier n'a pas été altéré.
 - La taille de 4,7 Mo indique une application de complexité modérée, ce qui est cohérent avec un APK pédagogique.
 - La commande `Get-FileHash` est l'équivalent Windows de `sha256sum` sous Linux.
-
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| APK présent dans `00-scope/` | ✅ |
-| Hash SHA-256 calculé et documenté | ✅ |
-| `analyse_info.txt` mis à jour | ✅ |
-| Provenance documentée | ✅ |
 
 ---
 
@@ -246,15 +217,6 @@ Move-Item -Path "C:\Users\Etudiant\Downloads\bevigil_results_20260527.json" -Des
 - BeVigil a identifié **43 assets**, **17 endpoints**, **8 URLs**, **3 emails** et **12 technologies**.
 - L'export JSON conserve l'ensemble des données brutes pour une analyse et une corrélation ultérieures.
 
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Projet BeVigil créé (`LAB-BEGINNER-20260527`) | ✅ |
-| APK importé et analysé | ✅ |
-| Export sauvegardé dans `01-bevigil/` | ✅ |
-| Version BeVigil documentée dans `analyse_info.txt` | ✅ |
-
 ---
 
 ## Task 4 — Collecte BeVigil : endpoints, domaines, emails, technologies
@@ -303,12 +265,12 @@ Move-Item -Path "C:\Users\Etudiant\Downloads\bevigil_results_20260527.json" -Des
 
 | Endpoint | Protocole | Observations |
 |----------|-----------|-------------|
-| `http://api.eduvulnapp.example.com/v1/login` | HTTP | ⚠️ Transmission d'identifiants en clair |
-| `http://api.eduvulnapp.example.com/v1/user/profile` | HTTP | ⚠️ Données utilisateur exposées |
-| `http://api.eduvulnapp.example.com/v1/data/export` | HTTP | ⚠️ Export de données potentiellement sensibles |
-| `https://api.eduvulnapp.example.com/v2/auth` | HTTPS | ✅ Version sécurisée de l'API d'auth |
-| `http://legacy.eduvulnapp.example.com/sync` | HTTP | ⚠️ Endpoint legacy non chiffré |
-| `http://dev.eduvulnapp.example.com/debug/logs` | HTTP | 🔴 Endpoint de debug exposé en production |
+| `http://api.eduvulnapp.example.com/v1/login` | HTTP |  Transmission d'identifiants en clair |
+| `http://api.eduvulnapp.example.com/v1/user/profile` | HTTP |  Données utilisateur exposées |
+| `http://api.eduvulnapp.example.com/v1/data/export` | HTTP |  Export de données potentiellement sensibles |
+| `https://api.eduvulnapp.example.com/v2/auth` | HTTPS |  Version sécurisée de l'API d'auth |
+| `http://legacy.eduvulnapp.example.com/sync` | HTTP |  Endpoint legacy non chiffré |
+| `http://dev.eduvulnapp.example.com/debug/logs` | HTTP |  Endpoint de debug exposé en production |
 
 ### URLs HTTP/HTTPS identifiées
 
@@ -336,13 +298,13 @@ https://www.google-analytics.com/collect
 | Technologie | Version | Observations |
 |-------------|---------|-------------|
 | Retrofit | 3.12.1 | Client HTTP — non à jour, vérifier CVE |
-| OkHttp | 4.10.0 | Bibliothèque réseau — version récente ✅ |
+| OkHttp | 4.10.0 | Bibliothèque réseau — version récente  |
 | Firebase Analytics | 21.0.0 | SDK de tracking — questions RGPD |
-| Gson | 2.10.1 | Sérialisation JSON — version récente ✅ |
+| Gson | 2.10.1 | Sérialisation JSON — version récente  |
 | Android SDK | 33 (target) / 21 (min) | Support Android 5.0+ |
-| Glide | 4.14.2 | Chargement d'images — version récente ✅ |
-| SQLCipher | 4.5.3 | Base de données chiffrée — ✅ bonne pratique |
-| LeakCanary | 2.10 | Outil de détection de fuites mémoire en DEBUG ⚠️ |
+| Glide | 4.14.2 | Chargement d'images — version récente  |
+| SQLCipher | 4.5.3 | Base de données chiffrée —  bonne pratique |
+| LeakCanary | 2.10 | Outil de détection de fuites mémoire en DEBUG  |
 
 ### Points d'intérêt
 
@@ -356,15 +318,6 @@ https://www.google-analytics.com/collect
 - BeVigil a fourni une surface d'attaque externe détaillée avec 6 endpoints, 4 domaines et 3 emails exposés.
 - La distinction entre faits avérés et hypothèses permet d'éviter des faux positifs dans la phase de triage.
 - L'environnement de développement exposé publiquement (`dev.eduvulnapp.example.com`) est le signal le plus préoccupant : il suggère une absence de séparation stricte entre environnements de dev et de prod.
-
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Fichier `bevigil_notes.md` créé et structuré | ✅ |
-| Plus de 5 éléments identifiés et documentés | ✅ (14 éléments) |
-| Distinction certains/hypothèses respectée | ✅ |
-| Export complet disponible dans `01-bevigil/` | ✅ |
 
 ---
 
@@ -432,14 +385,6 @@ Le rapport HTML est organisé en sections :
 - Yaazhini décompile l'APK (via jadx/apktool en interne) puis applique un ensemble de règles sur le code décompilé — c'est une analyse **interne** par opposition à BeVigil qui réalise une analyse **externe**.
 - L'analyse de 3 min 23 sec est cohérente pour un APK de 4,7 Mo.
 - Le rapport HTML produit est lisible directement dans un navigateur et contient des liens hypertextes vers les sections spécifiques.
-
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Analyse Yaazhini complétée sans erreur | ✅ |
-| Rapport sauvegardé dans `02-yaazhini/` | ✅ |
-| Version de l'outil documentée dans `analyse_info.txt` | ✅ |
 
 ---
 
@@ -538,16 +483,6 @@ Le rapport HTML est organisé en sections :
 - Les éléments identifiés par Yaazhini sont plus précis et localisés (fichier + ligne) que ceux de BeVigil.
 - La plupart des problèmes identifiés correspondent à des erreurs classiques de configuration et non à des vulnérabilités de code complexes — elles sont donc corrigeables rapidement.
 - Aucune valeur sensible réelle n'est documentée dans ces notes : les secrets sont référencés par type et localisation uniquement.
-
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Fichier `yaazhini_notes.md` créé et structuré | ✅ |
-| Au moins 5 éléments documentés | ✅ (8 éléments) |
-| Tous les champs requis complétés | ✅ |
-| Aucun secret réel exposé dans les notes | ✅ |
-
 ---
 
 ## Task 7 — Normalisation et dédoublonnage
@@ -590,15 +525,6 @@ Le rapport HTML est organisé en sections :
 - 8 constats sont classés **Confirmés** sur la base des preuves directes dans les rapports.
 - 3 constats sont classés **À confirmer** car ils reposent sur des indices indirects (email, infrastructure legacy, Firebase).
 - La séparation des niveaux de sévérité (High/Medium/Low) permet de prioriser les actions de remédiation.
-
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Fichier `triage.csv` créé avec toutes les colonnes | ✅ |
-| Au moins 10 lignes remplies | ✅ (12 lignes) |
-| Doublons fusionnés correctement | ✅ (1 doublon fusionné) |
-| Niveaux de confiance cohérents | ✅ |
 
 ---
 
@@ -693,15 +619,6 @@ Le rapport HTML est organisé en sections :
 - La catégorie **MASVS-PLATFORM** regroupe les problèmes de configuration des composants Android (permissions, composants exportés).
 - Tous les mappings OWASP sont justifiés par une correspondance réelle avec le problème identifié — pas de corrélation artificielle.
 - La mise à jour de la colonne "Référence OWASP" dans `triage.csv` a été effectuée pour les 7 constats ci-dessus.
-
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Fichier `owasp_mapping.md` créé avec 7 mappings | ✅ |
-| Justifications cohérentes pour chaque mapping | ✅ |
-| Colonne "Référence OWASP" mise à jour dans `triage.csv` | ✅ |
-| Catégories OWASP correctement attribuées | ✅ |
 
 ---
 
@@ -826,17 +743,6 @@ L'analyse combinée de l'application **EduVulnApp** avec BeVigil (analyse extern
 
 ---
 
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Rapport créé avec toutes les sections requises | ✅ |
-| Top 5 constats correctement documentés | ✅ |
-| Résumé exécutif en 5 lignes | ✅ |
-| Faux positifs identifiés et justifiés | ✅ |
-| Recommandations claires et actionnables | ✅ |
-| Aucun secret réel exposé | ✅ |
-
 ---
 
 ## Task 10 — Nettoyage et clôture
@@ -894,21 +800,21 @@ Get-ChildItem -Recurse | Select-Object FullName
 ```
 lab-mobile-security/
 ├── 00-scope/
-│   └── scope.md                          ✅
+│   └── scope.md                          
 ├── 01-bevigil/
-│   ├── bevigil_export.json               ✅
-│   └── bevigil_notes.md                  ✅
+│   ├── bevigil_export.json               
+│   └── bevigil_notes.md                  
 ├── 02-yaazhini/
-│   ├── yaazhini_report_20260527.html     ✅
-│   └── yaazhini_notes.md                 ✅
+│   ├── yaazhini_report_20260527.html     
+│   └── yaazhini_notes.md                 
 ├── 03-triage/
-│   ├── triage.csv                        ✅ (12 constats)
-│   └── owasp_mapping.md                  ✅ (7 mappings)
+│   ├── triage.csv                         (12 constats)
+│   └── owasp_mapping.md                   (7 mappings)
 ├── 04-report/
-│   └── rapport_final.md                  ✅
-├── analyse_info.txt                      ✅
-├── checklist_fin.md                      ✅
-└── commands.log                          ✅
+│   └── rapport_final.md                  
+├── analyse_info.txt                      
+├── checklist_fin.md                      
+└── commands.log                          
 ```
 
 ### Vérification de l'absence de secrets
@@ -926,16 +832,6 @@ Select-String -Path "**\*.md","**\*.txt","**\*.csv" -Pattern "password|secret|to
 - L'approche à deux outils (BeVigil externe + Yaazhini interne) a permis d'identifier 12 constats complémentaires, avec 1 constat commun (FIND-002) renforcé par la corroboration des deux sources.
 - Les 5 constats de sévérité **High** constituent les priorités absolues de remédiation.
 - La traçabilité complète dans `commands.log` et `analyse_info.txt` garantit la reproductibilité de l'analyse.
-
-### Check your work ✅
-
-| Critère | Statut |
-|---------|--------|
-| Checklist complétée et signée | ✅ |
-| Tous les livrables présents et conformes | ✅ |
-| Aucune donnée sensible exposée | ✅ |
-| Arborescence conforme au plan initial | ✅ |
-| `commands.log` complet | ✅ |
 
 ---
 
@@ -967,5 +863,3 @@ Select-String -Path "**\*.md","**\*.txt","**\*.csv" -Pattern "password|secret|to
 **Solution :** Documenter l'échec de décompilation dans les notes Yaazhini. Signaler à l'enseignant. Pour un APK pédagogique, cela ne devrait pas se produire — si c'est le cas, vérifier que le bon fichier APK a été utilisé.
 
 ---
-
-*Rapport produit dans le cadre d'un exercice pédagogique — LAB 8 Sécurité Mobile — données et résultats fictifs — usage strictement académique.*
