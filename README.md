@@ -1,4 +1,4 @@
-# LAB 8 — Réponses : Analyse de posture et exposition d'applications mobiles avec BeVigil et Yaazhini
+# LAB 8 —  Analyse de posture et exposition d'applications mobiles avec BeVigil et Yaazhini
 
 **Analyste :** Étudiant  
 **Date :** 2026-05-27  
