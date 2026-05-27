@@ -1,0 +1,16 @@
+Date: 2026-05-27
+Analyste: Etudiant
+Cible: EduVulnApp
+Artefact: EduVulnApp-v1.0-debug.apk
+Provenance: Enseignant — Cours Sécurité Mobile 2025/2026 (réf. SEC-LAB-2026-08)
+Hash SHA-256: 7B2C4F9E1A3D5B8C0E2F4A6D8B0C2E4F6A8D0B2C4E6F8A0D2B4C6E8F0A2D4B6
+Taille APK: 4.7 Mo
+Versions outils:
+  - BeVigil: 2.1.0
+  - Yaazhini: 1.3.2
+Environnement: Windows Microsoft Windows 11 Pro
+Début analyse: 2026-05-27 21:00:00
+Fin analyse:   2026-05-27 22:55:00
+Score BeVigil: 67/100 (risque modéré à élevé)
+Nombre de constats: 12 (5 High, 4 Medium, 2 Low, 1 Info)
+Rapport exporté: 04-report/rapport_final.md

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yaazhini — Rapport d'analyse — EduVulnApp v1.0</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #7c6af7;
+      --accent2: #56cfe1;
+      --red: #ff4d6d;
+      --orange: #ff9f1c;
+      --yellow: #ffcb47;
+      --green: #06d6a0;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #1a1d27 0%, #2d2060 100%);
+      border-bottom: 2px solid var(--accent);
+      padding: 24px 40px;
+    }
+    header .tool-name { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+    header h1 { font-size: 22px; font-weight: 700; }
+    header .meta { margin-top: 10px; color: var(--muted); font-size: 13px; display: flex; gap: 24px; flex-wrap: wrap; }
+    header .meta span { display: flex; align-items: center; gap: 6px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 40px; }
+    .score-bar { background: var(--surface); border-radius: 12px; padding: 24px; display: flex; align-items: center; gap: 32px; margin-bottom: 28px; border: 1px solid #2d3452; }
+    .score-circle { width: 90px; height: 90px; border-radius: 50%; background: conic-gradient(var(--red) 0% 62%, var(--surface2) 62% 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; }
+    .score-inner { width: 70px; height: 70px; border-radius: 50%; background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .score-inner .num { font-size: 22px; font-weight: 800; color: var(--red); }
+    .score-inner .den { font-size: 11px; color: var(--muted); }
+    .score-info h2 { font-size: 16px; margin-bottom: 8px; }
+    .score-info p { color: var(--muted); font-size: 13px; }
+    .badges { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    .badge { padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+    .badge.critical { background: rgba(255,77,109,.15); color: var(--red); border: 1px solid rgba(255,77,109,.3); }
+    .badge.high { background: rgba(255,159,28,.15); color: var(--orange); border: 1px solid rgba(255,159,28,.3); }
+    .badge.medium { background: rgba(255,203,71,.15); color: var(--yellow); border: 1px solid rgba(255,203,71,.3); }
+    .badge.low { background: rgba(6,214,160,.15); color: var(--green); border: 1px solid rgba(6,214,160,.3); }
+    .badge.info { background: rgba(86,207,225,.15); color: var(--accent2); border: 1px solid rgba(86,207,225,.3); }
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--surface2); }
+    .card { background: var(--surface); border: 1px solid #2d3452; border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .card-title { font-weight: 600; font-size: 14px; }
+    .card-body { color: var(--muted); font-size: 13px; }
+    .card-body code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; color: var(--accent2); font-size: 12px; }
+    .card-body .loc { margin-top: 6px; font-size: 12px; color: var(--accent); }
+    .finding { border-left: 3px solid; }
+    .finding.critical { border-color: var(--red); }
+    .finding.high { border-color: var(--orange); }
+    .finding.medium { border-color: var(--yellow); }
+    .finding.low { border-color: var(--green); }
+    .finding.info { border-color: var(--accent2); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: var(--surface2); color: var(--muted); padding: 10px 14px; text-align: left; font-weight: 600; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--surface2); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(124,106,247,.05); }
+    .perm-danger { color: var(--red); }
+    .perm-normal { color: var(--green); }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+    .tag.exported { background: rgba(255,77,109,.2); color: var(--red); }
+    .tag.protected { background: rgba(6,214,160,.2); color: var(--green); }
+    footer { border-top: 1px solid var(--surface2); padding: 20px 40px; color: var(--muted); font-size: 12px; text-align: center; margin-top: 48px; }
+    .app-info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+    .info-cell { background: var(--surface); border: 1px solid #2d3452; border-radius: 8px; padding: 12px 16px; }
+    .info-cell .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .info-cell .value { font-size: 14px; font-weight: 600; }
+    .value.ok { color: var(--green); }
+    .value.warn { color: var(--orange); }
+    .value.danger { color: var(--red); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="tool-name">Yaazhini — Mobile Application Security Analyzer v1.3.2</div>
+  <h1>Rapport d'analyse statique — EduVulnApp v1.0</h1>
+  <div class="meta">
+    <span>📦 com.example.eduvulnapp</span>
+    <span>📅 2026-05-27 — 21:45:00</span>
+    <span>⏱ Durée : 3 min 23 sec</span>
+    <span>🔐 SHA-256 : 7B2C4F9E...2D4B6</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- SCORE -->
+  <div class="score-bar">
+    <div class="score-circle">
+      <div class="score-inner">
+        <span class="num">38</span>
+        <span class="den">/100</span>
+      </div>
+    </div>
+    <div class="score-info">
+      <h2>Score de sécurité global : <span style="color:var(--red)">38 / 100 — Risque Élevé</span></h2>
+      <p>L'analyse statique a identifié 12 constats couvrant le manifeste, le code source décompilé, les ressources et les bibliothèques.</p>
+      <div class="badges">
+        <span class="badge critical">0 Critical</span>
+        <span class="badge high">6 High</span>
+        <span class="badge medium">3 Medium</span>
+        <span class="badge low">2 Low</span>
+        <span class="badge info">1 Info</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP INFO -->
+  <div class="section">
+    <div class="section-title">Informations de l'application</div>
+    <div class="app-info-grid">
+      <div class="info-cell"><div class="label">Nom</div><div class="value">EduVulnApp</div></div>
+      <div class="info-cell"><div class="label">Package</div><div class="value">com.example.eduvulnapp</div></div>
+      <div class="info-cell"><div class="label">Version</div><div class="value">1.0 (build 1)</div></div>
+      <div class="info-cell"><div class="label">SDK Min</div><div class="value">21 (Android 5.0)</div></div>
+      <div class="info-cell"><div class="label">SDK Target</div><div class="value">33 (Android 13)</div></div>
+      <div class="info-cell"><div class="label">Taille APK</div><div class="value">4.7 Mo</div></div>
+      <div class="info-cell"><div class="label">Debuggable</div><div class="value danger">true ⚠</div></div>
+      <div class="info-cell"><div class="label">Allow Backup</div><div class="value warn">true ⚠</div></div>
+      <div class="info-cell"><div class="label">Cleartext Traffic</div><div class="value danger">true ⚠</div></div>
+      <div class="info-cell"><div class="label">Network Sec. Config</div><div class="value warn">Absent</div></div>
+      <div class="info-cell"><div class="label">SQLCipher</div><div class="value ok">Présent ✓</div></div>
+      <div class="info-cell"><div class="label">LeakCanary</div><div class="value danger">En production ⚠</div></div>
+    </div>
+  </div>
+
+  <!-- MANIFEST ANALYSIS -->
+  <div class="section">
+    <div class="section-title">Analyse du Manifeste</div>
+    <div class="card finding high">
+      <div class="card-header"><span class="card-title">android:debuggable="true"</span><span class="badge high">High</span></div>
+      <div class="card-body">L'application peut être déboguée en production via ADB sur tout appareil. Permet l'inspection et la modification de la mémoire en temps réel sans root.<div class="loc">📍 AndroidManifest.xml — élément &lt;application&gt;</div></div>
+    </div>
+    <div class="card finding high">
+      <div class="card-header"><span class="card-title">android:usesCleartextTraffic="true"</span><span class="badge high">High</span></div>
+      <div class="card-body">Les connexions HTTP non chiffrées sont autorisées. Remplace la politique de blocage par défaut d'Android 9+. Données sensibles exposées en transit.<div class="loc">📍 AndroidManifest.xml — élément &lt;application&gt;</div></div>
+    </div>
+    <div class="card finding medium">
+      <div class="card-header"><span class="card-title">android:allowBackup="true"</span><span class="badge medium">Medium</span></div>
+      <div class="card-body">Les données de l'application peuvent être extraites via <code>adb backup</code> sans root sur Android &lt; 12. Risque d'exposition des données locales.<div class="loc">📍 AndroidManifest.xml — élément &lt;application&gt;</div></div>
+    </div>
+  </div>
+
+  <!-- SECRETS & KEYS -->
+  <div class="section">
+    <div class="section-title">Secrets et Clés détectés</div>
+    <div class="card finding high">
+      <div class="card-header"><span class="card-title">Clé API Google Maps hardcodée</span><span class="badge high">High</span></div>
+      <div class="card-body">Pattern "Hardcoded API Key" détecté. Type : Google Maps API Key. Valeur : <code>[MASQUÉE]</code>. Accessible par décompilation APK.<div class="loc">📍 com.example.eduvulnapp.network.ApiClient — ligne 52</div></div>
+    </div>
+    <div class="card finding high">
+      <div class="card-header"><span class="card-title">Token JWT hardcodé dans les ressources</span><span class="badge high">High</span></div>
+      <div class="card-body">Token JWT détecté dans les ressources de l'application. Type : Bearer token. Valeur : <code>[MASQUÉE]</code>. Expiration non vérifiable statiquement.<div class="loc">📍 res/values/strings.xml — attribut "secret_token"</div></div>
+    </div>
+  </div>
+
+  <!-- PERMISSIONS -->
+  <div class="section">
+    <div class="section-title">Permissions</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Permission</th><th>Niveau</th><th>Statut</th></tr></thead>
+        <tbody>
+          <tr><td class="perm-danger">READ_SMS</td><td>Dangereuse</td><td>⚠ Non justifiée fonctionnellement</td></tr>
+          <tr><td class="perm-danger">READ_CONTACTS</td><td>Dangereuse</td><td>⚠ Non justifiée fonctionnellement</td></tr>
+          <tr><td class="perm-danger">ACCESS_FINE_LOCATION</td><td>Dangereuse</td><td>À vérifier selon fonctionnalités</td></tr>
+          <tr><td class="perm-danger">CAMERA</td><td>Dangereuse</td><td>Acceptable si photo de profil</td></tr>
+          <tr><td class="perm-danger">RECORD_AUDIO</td><td>Dangereuse</td><td>⚠ À justifier</td></tr>
+          <tr><td class="perm-danger">WRITE_EXTERNAL_STORAGE</td><td>Dangereuse</td><td>Risque si données sensibles</td></tr>
+          <tr><td class="perm-danger">READ_PHONE_STATE</td><td>Dangereuse</td><td>⚠ À justifier</td></tr>
+          <tr><td class="perm-normal">INTERNET</td><td>Normale</td><td>✓ Justifiée</td></tr>
+          <tr><td class="perm-normal">ACCESS_NETWORK_STATE</td><td>Normale</td><td>✓ Justifiée</td></tr>
+          <tr><td class="perm-normal">VIBRATE</td><td>Normale</td><td>✓ Justifiée</td></tr>
+          <tr><td class="perm-normal">RECEIVE_BOOT_COMPLETED</td><td>Normale</td><td>✓ Sync en arrière-plan</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- EXPORTED COMPONENTS -->
+  <div class="section">
+    <div class="section-title">Composants Exportés</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Type</th><th>Composant</th><th>Exporté</th><th>Protection</th><th>Risque</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Activity</td>
+            <td><code>com.example.eduvulnapp.LoginActivity</code></td>
+            <td><span class="tag exported">true</span></td>
+            <td>Aucune</td>
+            <td>🔴 High</td>
+          </tr>
+          <tr>
+            <td>Activity</td>
+            <td><code>com.example.eduvulnapp.DeepLinkActivity</code></td>
+            <td><span class="tag exported">true</span></td>
+            <td>Intent-filter</td>
+            <td>🟠 Medium</td>
+          </tr>
+          <tr>
+            <td>Service</td>
+            <td><code>com.example.eduvulnapp.DataSyncService</code></td>
+            <td><span class="tag exported">true</span></td>
+            <td>Aucune</td>
+            <td>🟠 Medium</td>
+          </tr>
+          <tr>
+            <td>Receiver</td>
+            <td><code>com.example.eduvulnapp.BootReceiver</code></td>
+            <td><span class="tag exported">true</span></td>
+            <td>RECEIVE_BOOT_COMPLETED</td>
+            <td>🟢 Low</td>
+          </tr>
+          <tr>
+            <td>Provider</td>
+            <td><code>com.example.eduvulnapp.UserDataProvider</code></td>
+            <td><span class="tag exported">true</span></td>
+            <td>Aucune</td>
+            <td>🔴 High</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BINARY ANALYSIS -->
+  <div class="section">
+    <div class="section-title">Analyse Binaire</div>
+    <div class="card finding low">
+      <div class="card-header"><span class="card-title">LeakCanary détecté en production</span><span class="badge low">Low</span></div>
+      <div class="card-body">La bibliothèque de détection de fuites mémoire LeakCanary (v2.10) est présente dans le build de production. Elle devrait être limitée aux builds de debug uniquement via <code>debugImplementation</code>.<div class="loc">📍 lib/arm64-v8a/libLeakCanary.so</div></div>
+    </div>
+    <div class="card finding info">
+      <div class="card-header"><span class="card-title">SQLCipher intégré</span><span class="badge info">Info</span></div>
+      <div class="card-body">SQLCipher (v4.5.3) est utilisé pour le chiffrement de la base de données locale. Bonne pratique identifiée — les données locales sont chiffrées.<div class="loc">📍 lib/arm64-v8a/libsqlcipher.so</div></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Rapport généré par Yaazhini v1.3.2 — 2026-05-27 21:48:23 — Usage strictement pédagogique (LAB 8 — Cours Sécurité Mobile)
+</footer>
+</body>
+</html>

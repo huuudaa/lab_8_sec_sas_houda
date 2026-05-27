@@ -1,0 +1,135 @@
+{
+  "project": "LAB-BEGINNER-20260527",
+  "tool": "BeVigil",
+  "version": "2.1.0",
+  "analysis_date": "2026-05-27T21:15:00Z",
+  "target": {
+    "type": "apk",
+    "name": "EduVulnApp",
+    "package": "com.example.eduvulnapp",
+    "version": "1.0",
+    "sha256": "7B2C4F9E1A3D5B8C0E2F4A6D8B0C2E4F6A8D0B2C4E6F8A0D2B4C6E8F0A2D4B6"
+  },
+  "risk_score": 67,
+  "summary": {
+    "assets_found": 43,
+    "endpoints_found": 17,
+    "urls_found": 8,
+    "emails_found": 3,
+    "technologies_found": 12
+  },
+  "domains": [
+    {
+      "domain": "api.eduvulnapp.example.com",
+      "type": "primary_api",
+      "risk": "high",
+      "notes": "Backend principal de l'application"
+    },
+    {
+      "domain": "legacy.eduvulnapp.example.com",
+      "type": "legacy",
+      "risk": "medium",
+      "notes": "Infrastructure ancienne potentiellement non maintenue"
+    },
+    {
+      "domain": "cdn.eduvulnapp.example.com",
+      "type": "cdn",
+      "risk": "low",
+      "notes": "Ressources statiques (images, fonts)"
+    },
+    {
+      "domain": "dev.eduvulnapp.example.com",
+      "type": "development",
+      "risk": "high",
+      "notes": "Environnement de développement exposé publiquement"
+    }
+  ],
+  "endpoints": [
+    {
+      "url": "http://api.eduvulnapp.example.com/v1/login",
+      "method": "POST",
+      "protocol": "HTTP",
+      "risk": "critical",
+      "notes": "Transmission d'identifiants en clair"
+    },
+    {
+      "url": "http://api.eduvulnapp.example.com/v1/user/profile",
+      "method": "GET",
+      "protocol": "HTTP",
+      "risk": "high",
+      "notes": "Données utilisateur transmises sans chiffrement"
+    },
+    {
+      "url": "http://api.eduvulnapp.example.com/v1/data/export",
+      "method": "GET",
+      "protocol": "HTTP",
+      "risk": "high",
+      "notes": "Export de données potentiellement sensibles"
+    },
+    {
+      "url": "https://api.eduvulnapp.example.com/v2/auth",
+      "method": "POST",
+      "protocol": "HTTPS",
+      "risk": "low",
+      "notes": "Version sécurisée de l'API d'authentification"
+    },
+    {
+      "url": "http://legacy.eduvulnapp.example.com/sync",
+      "method": "POST",
+      "protocol": "HTTP",
+      "risk": "high",
+      "notes": "Endpoint legacy non chiffré"
+    },
+    {
+      "url": "http://dev.eduvulnapp.example.com/debug/logs",
+      "method": "GET",
+      "protocol": "HTTP",
+      "risk": "critical",
+      "notes": "Endpoint de debug exposé publiquement — journaux système accessibles"
+    },
+    {
+      "url": "https://cdn.eduvulnapp.example.com/assets/images/",
+      "method": "GET",
+      "protocol": "HTTPS",
+      "risk": "low",
+      "notes": "Ressources statiques publiques"
+    },
+    {
+      "url": "https://www.google-analytics.com/collect",
+      "method": "POST",
+      "protocol": "HTTPS",
+      "risk": "medium",
+      "notes": "Tracking Firebase/Google Analytics — questions RGPD"
+    }
+  ],
+  "emails": [
+    {
+      "email": "admin@eduvulnapp.example.com",
+      "source": "AndroidManifest.xml",
+      "risk": "medium",
+      "notes": "Contact administrateur exposé dans le manifeste"
+    },
+    {
+      "email": "dev-intern@eduvulnapp.example.com",
+      "source": "source_code",
+      "risk": "high",
+      "notes": "Email de stagiaire développeur — potentiel compte temporaire non révoqué"
+    },
+    {
+      "email": "support@eduvulnapp.example.com",
+      "source": "apk_metadata",
+      "risk": "low",
+      "notes": "Contact de support — probablement intentionnellement public"
+    }
+  ],
+  "technologies": [
+    { "name": "Retrofit", "version": "3.12.1", "risk": "low", "notes": "Client HTTP Android — version non à jour" },
+    { "name": "OkHttp", "version": "4.10.0", "risk": "low", "notes": "Bibliothèque réseau — version récente" },
+    { "name": "Firebase Analytics", "version": "21.0.0", "risk": "medium", "notes": "SDK de tracking — implications RGPD" },
+    { "name": "Gson", "version": "2.10.1", "risk": "low", "notes": "Sérialisation JSON — version récente" },
+    { "name": "Android SDK", "version": "33 (target) / 21 (min)", "risk": "low", "notes": "Support Android 5.0+" },
+    { "name": "Glide", "version": "4.14.2", "risk": "low", "notes": "Chargement d'images" },
+    { "name": "SQLCipher", "version": "4.5.3", "risk": "low", "notes": "Base de données chiffrée — bonne pratique" },
+    { "name": "LeakCanary", "version": "2.10", "risk": "medium", "notes": "Outil de debug présent en production — erreur de build" }
+  ]
+}
